@@ -36,7 +36,7 @@ fun WebViewScreen(modifier: Modifier = Modifier) {
             WebView(context).apply {
                 webViewClient = WebViewClient()
                 settings.javaScriptEnabled = true
-                loadUrl("http://192.168.1.26/Refleqtions/landing.php") // change this to your desired URL
+                loadUrl("192.168.1.26/Refleqtions/landing.php") // change this to your desired URL
             }
         }
     )
