@@ -1,6 +1,9 @@
 package com.example.refleq
 
 import android.os.Bundle
+import android.webkit.CookieManager
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.ComponentActivity
@@ -35,8 +38,19 @@ fun WebViewScreen(modifier: Modifier = Modifier) {
         factory = { context ->
             WebView(context).apply {
                 webViewClient = WebViewClient()
+                webChromeClient = WebChromeClient() // Needed for alerts, dialogs, JS
+
                 settings.javaScriptEnabled = true
-                loadUrl("192.168.1.26/Refleqtions/landing.php") // change this to your desired URL
+                settings.domStorageEnabled = true
+                settings.javaScriptCanOpenWindowsAutomatically = true
+                settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+
+                // ✅ Accept cookies (needed for chatbot, sessions, etc.)
+                CookieManager.getInstance().setAcceptCookie(true)
+                CookieManager.getInstance().setAcceptThirdPartyCookies(this, true)
+
+                // Load your system URL
+                loadUrl("http://192.168.8.165/Refleqtions/landing.php")
             }
         }
     )
