@@ -1,9 +1,6 @@
 package com.example.refleq
 
 import android.os.Bundle
-import android.webkit.CookieManager
-import android.webkit.WebChromeClient
-import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.ComponentActivity
@@ -37,30 +34,9 @@ fun WebViewScreen(modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxSize(),
         factory = { context ->
             WebView(context).apply {
-                webViewClient = object : WebViewClient() {
-                    override fun shouldOverrideUrlLoading(view: WebView?, request: android.webkit.WebResourceRequest?): Boolean {
-                        val url = request?.url.toString()
-                        return !url.startsWith("http://refleqtions.ct.ws")
-                    }
-                }
-
-                webChromeClient = WebChromeClient() // For JS dialogs, alerts
-
-                val webSettings = settings
-
-                @Suppress("SetJavaScriptEnabled") // Suppress lint warning
-                webSettings.javaScriptEnabled = true
-
-                webSettings.domStorageEnabled = true
-                webSettings.javaScriptCanOpenWindowsAutomatically = true
-                webSettings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-
-                // ✅ Accept cookies (needed for chatbot, sessions, etc.)
-                CookieManager.getInstance().setAcceptCookie(true)
-                CookieManager.getInstance().setAcceptThirdPartyCookies(this, true)
-
-                // Load your trusted URL
-                loadUrl("http://refleqtions.ct.ws/Refleqtions/welcome.php")
+                webViewClient = WebViewClient()
+                settings.javaScriptEnabled = true
+                loadUrl("192.168.1.26/Refleqtions/landing.php") // change this to your desired URL
             }
         }
     )
