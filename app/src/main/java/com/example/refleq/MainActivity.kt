@@ -50,7 +50,7 @@ fun WebViewScreen(modifier: Modifier = Modifier) {
                 CookieManager.getInstance().setAcceptThirdPartyCookies(this, true)
 
                 // Load your system URL
-                loadUrl("http://192.168.8.165/Refleqtions/landing.php")
+                loadUrl("http://refleqtions.ct.ws/Refleqtions/welcome.php")
             }
         }
     )
