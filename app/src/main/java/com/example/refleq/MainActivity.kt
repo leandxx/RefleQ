@@ -37,19 +37,29 @@ fun WebViewScreen(modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxSize(),
         factory = { context ->
             WebView(context).apply {
-                webViewClient = WebViewClient()
-                webChromeClient = WebChromeClient() // Needed for alerts, dialogs, JS
+                webViewClient = object : WebViewClient() {
+                    override fun shouldOverrideUrlLoading(view: WebView?, request: android.webkit.WebResourceRequest?): Boolean {
+                        val url = request?.url.toString()
+                        return !url.startsWith("http://refleqtions.ct.ws")
+                    }
+                }
 
-                settings.javaScriptEnabled = true
-                settings.domStorageEnabled = true
-                settings.javaScriptCanOpenWindowsAutomatically = true
-                settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+                webChromeClient = WebChromeClient() // For JS dialogs, alerts
+
+                val webSettings = settings
+
+                @Suppress("SetJavaScriptEnabled") // Suppress lint warning
+                webSettings.javaScriptEnabled = true
+
+                webSettings.domStorageEnabled = true
+                webSettings.javaScriptCanOpenWindowsAutomatically = true
+                webSettings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
 
                 // ✅ Accept cookies (needed for chatbot, sessions, etc.)
                 CookieManager.getInstance().setAcceptCookie(true)
                 CookieManager.getInstance().setAcceptThirdPartyCookies(this, true)
 
-                // Load your system URL
+                // Load your trusted URL
                 loadUrl("http://refleqtions.ct.ws/Refleqtions/welcome.php")
             }
         }
